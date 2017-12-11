@@ -72,7 +72,7 @@ public class InfiniteTiler : MonoBehaviour {
 
     void OnDrawGizmos() {
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere((target == null) ? map.position : target.position, viewRadius);
+        Gizmos.DrawWireSphere((map == null) ? Vector3.zero : map.position, viewRadius);
         if (!Application.isPlaying) {
             float tilesInView = Mathf.CeilToInt(viewRadius / groundTileSize) * groundTileSize + groundTileSize / 2f;
             Gizmos.color = Color.cyan;

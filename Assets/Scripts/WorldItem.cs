@@ -25,7 +25,7 @@ public class WorldItem : MonoBehaviour {
         }
         set {
             _discoveredWorld = value;
-            worldName.text = _discoveredWorld.name;
+            worldName.text = _discoveredWorld.world.name;
         }
     }
 }

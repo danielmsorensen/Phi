@@ -12506,7 +12506,7 @@ GameObject:
   - component: {fileID: 1697336501}
   - component: {fileID: 1697336500}
   m_Layer: 5
-  m_Name: TMP SubMeshUI [KenVector Future SDF Material + LiberationSans SDF Atlas]
+  m_Name: TMP SubMeshUI [Veranda SDF Material + LiberationSans SDF Atlas]
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12647,7 +12647,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1736770287}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -156.3, y: 120, z: 0}
+  m_LocalPosition: {x: -48, y: 120, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1607411644}
@@ -12656,7 +12656,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -156.3, y: 119.99999}
+  m_AnchoredPosition: {x: -48, y: 119.99999}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1736770289
@@ -12678,7 +12678,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: Phi
+  m_text: Project
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 0431d13422e96194184a8ae616074ee0, type: 2}
   m_sharedMaterial: {fileID: 21213510165030144, guid: 0431d13422e96194184a8ae616074ee0,
@@ -12746,7 +12746,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1736770289}
-    characterCount: 3
+    characterCount: 7
     spriteCount: 0
     spaceCount: 0
     wordCount: 1
@@ -13678,7 +13678,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1817795587}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -60, y: 120, z: 0}
+  m_LocalPosition: {x: 219.7, y: 120, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1697336499}
@@ -13687,7 +13687,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -60, y: 120}
+  m_AnchoredPosition: {x: 219.7, y: 120}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1817795589
@@ -13709,10 +13709,10 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_text: "\u03A6"
+  m_text: Phi
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 91ebf25eec0a21d4cb1cc4c75944b462, type: 2}
-  m_sharedMaterial: {fileID: 21674377317791648, guid: 91ebf25eec0a21d4cb1cc4c75944b462,
+  m_fontAsset: {fileID: 11400000, guid: 0431d13422e96194184a8ae616074ee0, type: 2}
+  m_sharedMaterial: {fileID: 21213510165030144, guid: 0431d13422e96194184a8ae616074ee0,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -13777,7 +13777,7 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1817795589}
-    characterCount: 1
+    characterCount: 3
     spriteCount: 0
     spaceCount: 0
     wordCount: 1

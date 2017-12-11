@@ -69,7 +69,7 @@ public class Options : MonoBehaviour {
             GameManager.World world = GameManager.CreateWorld(worldNameField.text.ToLower(), int.Parse(seedField.text));
             GameManager.currentWorld = world;
             MultiplayerManager.networkMode = MultiplayerManager.NetworkMode.Solo;
-            SceneSwitcher.Active.Play();
+            SceneSwitcher.Active.Play(GameManager.World.Area.Planet);
         }
         else {
             infomation.color = Color.red;
@@ -80,7 +80,7 @@ public class Options : MonoBehaviour {
     public void LoadWorld(WorldItem item) {
         GameManager.currentWorld = item.world;
         MultiplayerManager.networkMode = MultiplayerManager.NetworkMode.Solo;
-        SceneSwitcher.Active.Play();
+        SceneSwitcher.Active.Play(item.world.area);
     }
 
     public void DeleteWorld(WorldItem item) {
@@ -102,7 +102,7 @@ public class Options : MonoBehaviour {
     public void LoadOnlineWorld(WorldItem item) {
         MultiplayerManager.networkMode = MultiplayerManager.NetworkMode.Client;
         GameManager.discoveredWorld = item.discoveredWorld;
-        SceneSwitcher.Active.Play();
+        SceneSwitcher.Active.Play(item.discoveredWorld.world.area);
     }
 
     public void LoadOnlineWorlds() {

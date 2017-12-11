@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour {
     public static bool paused;
 
     public static Dictionary<string, World> worlds;
-    public static World currentWorld = new World("Testing World", 0);
+    public static World currentWorld = new World("Testing World", 0, World.Area.Planet);
     public static WorldDiscovery.World discoveredWorld;
     
     void Awake() {
@@ -49,10 +49,11 @@ public class GameManager : MonoBehaviour {
             switch (MultiplayerManager.networkMode) {
                 case (MultiplayerManager.NetworkMode.Solo):
                     SetSeed(currentWorld.seed);
+                    LoadSavables();
                     GravitySource.ResetAttractedObjects();
                     break;
                 case (MultiplayerManager.NetworkMode.Client):
-                    SetSeed(discoveredWorld.seed);
+                    SetSeed(discoveredWorld.world.seed);
                     break;
             }
         }
@@ -95,6 +96,12 @@ public class GameManager : MonoBehaviour {
         }
         if (dustSpawner != null) {
             dustSpawner.seed = currentWorld.seed;
+        }
+    }
+
+    public void LoadSavables() {
+        foreach(string s in currentWorld.savables) {
+            Savable.Deserialize(s);
         }
     }
 
@@ -225,14 +232,19 @@ public class GameManager : MonoBehaviour {
     }
 
     public static World CreateWorld(string name, int seed) {
-        World world = new World(name.ToLower(), seed);
+        World world = new World(name.ToLower(), seed, World.Area.Planet);
         worlds.Add(world.name, world);
         SaveWorld(world);
         return world;
     }
 
     public static void SaveWorld(World world) {
+        Savable[] savables = FindObjectsOfType<Savable>();
+        foreach(Savable s in savables) {
+            world.savables.Add(s.Serialize());
+        }
         SaveObject(world.name.ToLower(), world, "Worlds");
+        print(savables.Length + " savables found");
         print("Saved world: " + world.name);
     }
 
@@ -260,9 +272,9 @@ public class GameManager : MonoBehaviour {
         name = name.Trim(Path.GetInvalidFileNameChars());
         subPath = subPath.Trim(Path.GetInvalidPathChars());
         string path = Application.persistentDataPath + "/" + subPath + "/" + name + ".dat";
-
+        
         CreateDirectory(subPath);
-
+        
         BinaryFormatter formatter = new BinaryFormatter();
         FileStream stream = File.Open(path, FileMode.OpenOrCreate);
 
@@ -334,15 +346,25 @@ public class GameManager : MonoBehaviour {
     public class World {
         public string name;
         public int seed;
-        public Dictionary<string, Player.Data> playerData;
 
-        public World (string name, int seed) {
+        public Dictionary<string, Player.Data> playerData;
+        public List<string> savables;
+
+        public enum Area { Planet = 1, Space = 2 }
+        public Area area;
+
+        public World (string name, int seed, Area area) {
             this.name = name;
             this.seed = seed;
+
             playerData = new Dictionary<string, Player.Data>();
+            savables = new List<string>();
+
+            this.area = area;
         }
     }
 
+    #region Serializable Classes
     /// <summary>
     /// Since unity doesn't flag the Vector3 as serializable, we
     /// need to create our own version. This one will automatically convert
@@ -471,4 +493,5 @@ public class GameManager : MonoBehaviour {
             return new SerializableQuaternion(rValue.x, rValue.y, rValue.z, rValue.w);
         }
     }
+    #endregion
 }

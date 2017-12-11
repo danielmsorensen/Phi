@@ -51,16 +51,16 @@ public class SceneSwitcher : MonoBehaviour {
             StartCoroutine(LoadSceneAsync(0));
         }
     }
-    public virtual void Play(bool fade = false) {
+    public virtual void Play(GameManager.World.Area area, bool fade = false) {
         scene = Scene.Space;
         if (fade) {
             faderAnimator.gameObject.SetActive(true);
-            faderAnimator.SetInteger("Scene ID", 1);
+            faderAnimator.SetInteger("Scene ID", (int)area);
             Fade();
         }
         else {
             faderAnimator.gameObject.SetActive(false);
-            StartCoroutine(LoadSceneAsync(1));
+            StartCoroutine(LoadSceneAsync((int)area));
         }
     }
 
@@ -71,7 +71,11 @@ public class SceneSwitcher : MonoBehaviour {
             Fade();
         }
         else {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
     }
 
@@ -114,5 +118,5 @@ public class SceneSwitcher : MonoBehaviour {
     void OnDisable() {
         SceneManager.sceneLoaded -= OnLevelLoaded;
     }
-    #endregion
+#endregion
 }

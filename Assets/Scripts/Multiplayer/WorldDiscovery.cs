@@ -35,7 +35,7 @@ public class WorldDiscovery : NetworkDiscovery {
         string[] versions = Application.version.Split('.');
         broadcastVersion = int.Parse(versions[0]);
         broadcastSubVersion = int.Parse(versions[1]);
-        broadcastData = GameManager.currentWorld.name + "," + GameManager.currentWorld.seed;
+        broadcastData = JsonUtility.ToJson(GameManager.currentWorld);
         if (!isServer) {
             if(!StartAsServer()) {
                 Debug.LogError("Unable to host world");
@@ -62,8 +62,7 @@ public class WorldDiscovery : NetworkDiscovery {
     }
 
     public override void OnReceivedBroadcast(string fromAddress, string data) {
-        string[] parts = data.Split(',');
-        World world = new World(fromAddress, parts[0], int.Parse(parts[1]));
+        World world = new World(fromAddress, JsonUtility.FromJson<GameManager.World>(data));
         if (!availableWorlds.Contains(world)) {
             availableWorlds.Add(world);
         }
@@ -75,13 +74,11 @@ public class WorldDiscovery : NetworkDiscovery {
 
     public struct World {
         public string address;
-        public string name;
-        public int seed;
+        public GameManager.World world;
 
-        public World(string address, string name, int seed) {
+        public World(string address, GameManager.World world) {
             this.address = address;
-            this.name = name;
-            this.seed = seed;
+            this.world = world;
         }
 
         public override bool Equals(object obj) {
@@ -95,7 +92,7 @@ public class WorldDiscovery : NetworkDiscovery {
             return address.GetHashCode();
         }
         public override string ToString() {
-            return "DiscoveredWorld: " + name + " on " + address;
+            return "DiscoveredWorld: " + world.name + " on " + address;
         }
 
         public static bool operator ==(World w1, World w2) {
