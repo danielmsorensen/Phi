@@ -25,11 +25,14 @@ public class GameManager : MonoBehaviour {
     public static readonly Vector3 spawnPosition = new Vector3(0, 1230, 0);
     #endregion
 
+    [Header("Planet")]
+
+    [Header("Space")]
     public FieldSpawner dustSpawner;
     public FieldSpawner asteroidSpawner;
     public float minAsteroidScale;
     public float maxAsteroidScale;
-    [Space]
+    [Header("UI")]
     public GameObject dimmer;
     public Inventory inventory;
     public GameObject pauseMenu;
@@ -40,7 +43,7 @@ public class GameManager : MonoBehaviour {
     public static bool paused;
 
     public static Dictionary<string, World> worlds;
-    public static World currentWorld = new World("Testing World", 0, World.Area.Planet);
+    public static World currentWorld = new World("Testing World", 0, World.Realm.Planet);
     public static WorldDiscovery.World discoveredWorld;
     
     void Awake() {
@@ -49,13 +52,15 @@ public class GameManager : MonoBehaviour {
             switch (MultiplayerManager.networkMode) {
                 case (MultiplayerManager.NetworkMode.Solo):
                     SetSeed(currentWorld.seed);
-                    LoadSavables();
                     GravitySource.ResetAttractedObjects();
                     break;
                 case (MultiplayerManager.NetworkMode.Client):
                     SetSeed(discoveredWorld.world.seed);
                     break;
             }
+        }
+        if (SceneSwitcher.scene != SceneSwitcher.Scene.MainMenu) {
+            LoadSavables();
         }
     }
     void Start() {
@@ -100,8 +105,10 @@ public class GameManager : MonoBehaviour {
     }
 
     public void LoadSavables() {
-        foreach(string s in currentWorld.savables) {
-            Savable.Deserialize(s);
+        foreach (string s in currentWorld.savables) {
+            if (Savable.GetRealm(s) == currentWorld.realm) {
+                Savable.Deserialize(s);
+            }
         }
     }
 
@@ -232,15 +239,21 @@ public class GameManager : MonoBehaviour {
     }
 
     public static World CreateWorld(string name, int seed) {
-        World world = new World(name.ToLower(), seed, World.Area.Planet);
+        World world = new World(name.ToLower(), seed, World.Realm.Planet);
         worlds.Add(world.name, world);
         SaveWorld(world);
         return world;
     }
 
     public static void SaveWorld(World world) {
+        for (int i = 0; i < world.savables.Count; i++) {
+            string s = world.savables[i];
+            if(Savable.GetRealm(s) == world.realm) {
+                world.savables.Remove(s);
+            }
+        }
         Savable[] savables = FindObjectsOfType<Savable>();
-        foreach(Savable s in savables) {
+        foreach (Savable s in savables) {
             world.savables.Add(s.Serialize());
         }
         SaveObject(world.name.ToLower(), world, "Worlds");
@@ -350,17 +363,17 @@ public class GameManager : MonoBehaviour {
         public Dictionary<string, Player.Data> playerData;
         public List<string> savables;
 
-        public enum Area { Planet = 1, Space = 2 }
-        public Area area;
+        public enum Realm { Planet = 1, Space = 2 }
+        public Realm realm;
 
-        public World (string name, int seed, Area area) {
+        public World (string name, int seed, Realm area) {
             this.name = name;
             this.seed = seed;
 
             playerData = new Dictionary<string, Player.Data>();
             savables = new List<string>();
 
-            this.area = area;
+            this.realm = area;
         }
     }
 

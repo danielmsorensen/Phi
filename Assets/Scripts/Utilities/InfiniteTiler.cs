@@ -71,12 +71,14 @@ public class InfiniteTiler : MonoBehaviour {
     }
 
     void OnDrawGizmos() {
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere((map == null) ? Vector3.zero : map.position, viewRadius);
-        if (!Application.isPlaying) {
-            float tilesInView = Mathf.CeilToInt(viewRadius / groundTileSize) * groundTileSize + groundTileSize / 2f;
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireCube(map.position, new Vector3(tilesInView * 2, 0.1f, tilesInView * 2));
+        if (map != null) {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere((map == null) ? Vector3.zero : map.position, viewRadius);
+            if (!Application.isPlaying) {
+                float tilesInView = Mathf.CeilToInt(viewRadius / groundTileSize) * groundTileSize + groundTileSize / 2f;
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawWireCube(map.position, new Vector3(tilesInView * 2, 0.1f, tilesInView * 2));
+            }
         }
     }
 }

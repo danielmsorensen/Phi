@@ -14,7 +14,7 @@ public class SceneSwitcher : MonoBehaviour {
 
     public static SceneSwitcher Active;
 
-    public enum Scene { MainMenu, Space };
+    public enum Scene { MainMenu, Space, Planet };
     public static Scene scene;
 
     public static System.Action OnSceneLoaded;
@@ -34,6 +34,9 @@ public class SceneSwitcher : MonoBehaviour {
                 case ("Space"):
                     scene = Scene.Space;
                     break;
+                case ("Planet"):
+                    scene = Scene.Planet;
+                    break;
             }
         }
     }
@@ -51,16 +54,16 @@ public class SceneSwitcher : MonoBehaviour {
             StartCoroutine(LoadSceneAsync(0));
         }
     }
-    public virtual void Play(GameManager.World.Area area, bool fade = false) {
+    public virtual void Play(GameManager.World.Realm realm, bool fade = false) {
         scene = Scene.Space;
         if (fade) {
             faderAnimator.gameObject.SetActive(true);
-            faderAnimator.SetInteger("Scene ID", (int)area);
+            faderAnimator.SetInteger("Scene ID", (int)realm);
             Fade();
         }
         else {
             faderAnimator.gameObject.SetActive(false);
-            StartCoroutine(LoadSceneAsync((int)area));
+            StartCoroutine(LoadSceneAsync((int)realm));
         }
     }
 
